@@ -14,7 +14,7 @@ class SuccessWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         final item = gifs[index];
 
-        return Center(child: Text(item.url));
+        return Center(child: Image.network(item.url, gaplessPlayback: true));
       },
     );
   }

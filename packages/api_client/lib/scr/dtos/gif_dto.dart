@@ -10,7 +10,7 @@ class GifDTO {
   @JsonKey(name: 'id')
   final String id;
 
-  @JsonKey(name: 'url')
+  @JsonKey(readValue: _readGifUrl)
   final String url;
 
   const GifDTO({
@@ -19,6 +19,10 @@ class GifDTO {
   });
 
   factory GifDTO.fromJson(Json json) => _$GifDTOFromJson(json);
+
+  static Object? _readGifUrl(Map json, String key) {
+    return json['images']?['original']?['url'];
+  }
 
   Gif toEntity() {
     return Gif(
