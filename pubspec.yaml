@@ -10,6 +10,14 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
+# Modules
+  core:
+    path: packages/core
+  api_client:
+    path: packages/api_client
+# packages
+  flutter_bloc: 9.1.1
+  giphy_flutter_sdk: any
 
 dev_dependencies:
   flutter_test:

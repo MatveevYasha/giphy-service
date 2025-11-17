@@ -20,7 +20,7 @@ class GifDTO {
 
   factory GifDTO.fromJson(Json json) => _$GifDTOFromJson(json);
 
-  Future<Gif> toEntity() async {
+  Gif toEntity() {
     return Gif(
       id: id,
       url: url,
