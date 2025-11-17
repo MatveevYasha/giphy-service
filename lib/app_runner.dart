@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:giphy_service/home_page/Home_page.dart';
 
-class GiphyApp extends StatelessWidget {
-  const GiphyApp({super.key});
+class AppRunner extends StatelessWidget {
+  const AppRunner({super.key});
 
   @override
   Widget build(BuildContext context) {
