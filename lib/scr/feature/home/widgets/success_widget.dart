@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:giphy_service/scr/feature/home/bloc/home_bloc.dart';
 import 'package:giphy_service/scr/feature/home/bloc/home_event.dart';
-import 'package:giphy_service/scr/feature/home/widgets/details_page.dart';
+import 'package:go_router/go_router.dart';
 
 class SuccessWidget extends StatelessWidget {
   final List<Gif> gifs;
@@ -14,6 +14,8 @@ class SuccessWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
         final metrics = notification.metrics;
@@ -28,7 +30,7 @@ class SuccessWidget extends StatelessWidget {
           Expanded(
             child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+                crossAxisCount: isLandscape ? 3 : 2,
                 mainAxisSpacing: 8,
                 crossAxisSpacing: 8,
               ),
@@ -37,12 +39,7 @@ class SuccessWidget extends StatelessWidget {
                 final item = gifs[index];
 
                 return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => DetailsPage(gif: item)),
-                    );
-                  },
+                  onTap: () => context.push('/details', extra: item),
                   child: CachedNetworkImage(
                     imageUrl: item.url,
                     fit: BoxFit.fill,
