@@ -30,14 +30,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Future<void> _loadMore(LoadMoreHomeEvent event, Emitter<HomeState> emit) async {
     final offset = state.gifs?.length ?? _limit;
 
+    emit((state as SuccessHomeState).copyWith(isLoadingMore: true));
+
     try {
       final List<Gif> gifs = await _repository.getGifs(limit: _limit, offset: offset);
 
-      emit(SuccessHomeState(gifs: [...?state.gifs, ...gifs]));
+      emit(SuccessHomeState(gifs: [...?state.gifs, ...gifs], isLoadingMore: false));
     } on Exception catch (_) {
       emit(ErrorHomeState());
     }
   }
 
-  static const _limit = 10;
+  static const _limit = 20;
 }

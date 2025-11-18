@@ -20,7 +20,7 @@ class HomePageBuilder extends StatelessWidget {
             LoadingHomeState() => const LoadingWidget(),
             SuccessHomeState() => switch (state.gifs.isEmpty) {
               true => const EmptyListWidget(),
-              _ => SuccessWidget(gifs: state.gifs),
+              _ => SuccessWidget(gifs: state.gifs, isLoadingMore: state.isLoadingMore),
             },
             _ => const ErrorsWidget(),
           };

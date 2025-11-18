@@ -5,5 +5,5 @@ class ErrorsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      const Center(child: Text('An error has occurred, try to reload the page'));
+      const Center(child: Text('An error has occurred, try to reload the app'));
 }
