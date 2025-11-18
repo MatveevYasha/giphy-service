@@ -1,5 +1,5 @@
 import '../../entities/gif.dart';
 
 abstract interface class GetGifsRepository {
-  Future<List<Gif>> getGifs();
+  Future<List<Gif>> getGifs({required int limit, int? offset});
 }

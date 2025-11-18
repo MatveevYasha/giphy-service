@@ -6,5 +6,6 @@ class GetGifsRepositoryImpl implements GetGifsRepository {
   const GetGifsRepositoryImpl({required GetGifsProvider provider}) : _provider = provider;
 
   @override
-  Future<List<Gif>> getGifs() => _provider.getGifts();
+  Future<List<Gif>> getGifs({required int limit, int? offset}) =>
+      _provider.getGifts(limit: limit, offset: offset);
 }

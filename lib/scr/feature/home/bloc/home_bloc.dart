@@ -12,17 +12,32 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeEvent>(
       (event, emit) => switch (event) {
         final InitialHomeEvent event => _initial(event, emit),
+        final LoadMoreHomeEvent event => _loadMore(event, emit),
       },
     );
   }
 
   Future<void> _initial(InitialHomeEvent event, Emitter<HomeState> emit) async {
     try {
-      final List<Gif> gifs = await _repository.getGifs();
+      final List<Gif> gifs = await _repository.getGifs(limit: _limit);
 
       emit(SuccessHomeState(gifs: gifs));
     } on Exception catch (_) {
       emit(ErrorHomeState());
     }
   }
+
+  Future<void> _loadMore(LoadMoreHomeEvent event, Emitter<HomeState> emit) async {
+    final offset = state.gifs?.length ?? _limit;
+
+    try {
+      final List<Gif> gifs = await _repository.getGifs(limit: _limit, offset: offset);
+
+      emit(SuccessHomeState(gifs: [...?state.gifs, ...gifs]));
+    } on Exception catch (_) {
+      emit(ErrorHomeState());
+    }
+  }
+
+  static const _limit = 10;
 }
