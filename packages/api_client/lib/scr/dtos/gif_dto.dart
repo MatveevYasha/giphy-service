@@ -1,3 +1,4 @@
+import 'package:api_client/scr/dtos/gif_user_dto.dart';
 import 'package:core/core.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -13,9 +14,13 @@ class GifDTO {
   @JsonKey(readValue: _readGifUrl)
   final String url;
 
+  @JsonKey(name: 'user')
+  final GifUserDTO? userInfo;
+
   const GifDTO({
     required this.id,
     required this.url,
+    required this.userInfo,
   });
 
   factory GifDTO.fromJson(Json json) => _$GifDTOFromJson(json);
@@ -28,6 +33,7 @@ class GifDTO {
     return Gif(
       id: id,
       url: url,
+      userInfo: userInfo?.toEntity(),
     );
   }
 }

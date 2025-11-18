@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:giphy_service/scr/feature/home/bloc/home_bloc.dart';
 import 'package:giphy_service/scr/feature/home/bloc/home_event.dart';
+import 'package:giphy_service/scr/feature/home/widgets/details_page.dart';
 
 class SuccessWidget extends StatelessWidget {
   final List<Gif> gifs;
@@ -16,7 +17,7 @@ class SuccessWidget extends StatelessWidget {
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
         final metrics = notification.metrics;
-        final isAtBottom = metrics.pixels >= metrics.maxScrollExtent - 100;
+        final isAtBottom = metrics.pixels >= metrics.maxScrollExtent - endOffset;
 
         if (isAtBottom && !isLoadingMore) context.read<HomeBloc>().add(LoadMoreHomeEvent());
 
@@ -35,11 +36,16 @@ class SuccessWidget extends StatelessWidget {
               itemBuilder: (context, index) {
                 final item = gifs[index];
 
-                return CachedNetworkImage(
-                  imageUrl: item.url,
-                  fit: BoxFit.fill,
-                  placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsPage()));
+                  },
+                  child: CachedNetworkImage(
+                    imageUrl: item.url,
+                    fit: BoxFit.fill,
+                    placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
                 );
               },
             ),
@@ -53,4 +59,6 @@ class SuccessWidget extends StatelessWidget {
       ),
     );
   }
+
+  static const endOffset = 100;
 }
