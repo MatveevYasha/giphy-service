@@ -38,7 +38,10 @@ class SuccessWidget extends StatelessWidget {
 
                 return GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsPage()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => DetailsPage(gif: item)),
+                    );
                   },
                   child: CachedNetworkImage(
                     imageUrl: item.url,
