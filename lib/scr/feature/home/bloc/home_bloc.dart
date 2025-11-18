@@ -4,15 +4,16 @@ import 'package:giphy_service/scr/feature/home/bloc/home_event.dart';
 import 'package:giphy_service/scr/feature/home/bloc/home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final GetGifsRepository _repository;
+  final GifsRepository _repository;
 
-  HomeBloc({required GetGifsRepository repository})
+  HomeBloc({required GifsRepository repository})
     : _repository = repository,
       super(LoadingHomeState()) {
     on<HomeEvent>(
       (event, emit) => switch (event) {
         final InitialHomeEvent event => _initial(event, emit),
         final LoadMoreHomeEvent event => _loadMore(event, emit),
+        final SearchHomeEvent event => _search(event, emit),
       },
     );
   }
@@ -36,6 +37,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final List<Gif> gifs = await _repository.getGifs(limit: _limit, offset: offset);
 
       emit(SuccessHomeState(gifs: [...?state.gifs, ...gifs], isLoadingMore: false));
+    } on Exception catch (_) {
+      emit(ErrorHomeState());
+    }
+  }
+
+  Future<void> _search(SearchHomeEvent event, Emitter<HomeState> emit) async {
+    try {
+      final List<Gif> gifs = await _repository.searchGifts(
+        searchString: event.searchString,
+        limit: _limit,
+      );
+
+      emit(SuccessHomeState(gifs: gifs));
     } on Exception catch (_) {
       emit(ErrorHomeState());
     }

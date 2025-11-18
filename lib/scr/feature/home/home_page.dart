@@ -1,9 +1,9 @@
-import 'package:api_client/scr/providers/get_gifs_provider/get_gifs_provider.dart';
+import 'package:api_client/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:giphy_service/scr/feature/home/bloc/home_bloc.dart';
 import 'package:giphy_service/scr/feature/home/bloc/home_event.dart';
-import 'package:giphy_service/scr/feature/home/data/get_gifs_repository_impl.dart';
+import 'package:giphy_service/scr/feature/home/data/gifs_repository_impl.dart';
 import 'package:giphy_service/scr/feature/home/home_page_builder.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          HomeBloc(repository: GetGifsRepositoryImpl(provider: ApiGifsProvider()))
+          HomeBloc(repository: GifsRepositoryImpl(provider: ApiGifsProvider()))
             ..add(InitialHomeEvent()),
       child: HomePageBuilder(),
     );
