@@ -33,8 +33,18 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     emit((state as SuccessHomeState).copyWith(isLoadingMore: true));
 
+    List<Gif> gifs = [];
+
     try {
-      final List<Gif> gifs = await _repository.getGifs(limit: _limit, offset: offset);
+      if (event.searchString != '') {
+        gifs = await _repository.searchGifts(
+          searchString: event.searchString!,
+          limit: _limit,
+          offset: offset,
+        );
+      } else {
+        gifs = await _repository.getGifs(limit: _limit, offset: offset);
+      }
 
       emit(SuccessHomeState(gifs: [...?state.gifs, ...gifs], isLoadingMore: false));
     } on Exception catch (_) {

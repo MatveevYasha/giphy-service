@@ -9,8 +9,14 @@ import 'package:go_router/go_router.dart';
 class SuccessWidget extends StatelessWidget {
   final List<Gif> gifs;
   final bool isLoadingMore;
+  final ValueNotifier<String> searchController;
 
-  const SuccessWidget({super.key, required this.gifs, required this.isLoadingMore});
+  const SuccessWidget({
+    super.key,
+    required this.gifs,
+    required this.isLoadingMore,
+    required this.searchController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +27,9 @@ class SuccessWidget extends StatelessWidget {
         final metrics = notification.metrics;
         final isAtBottom = metrics.pixels >= metrics.maxScrollExtent - endOffset;
 
-        if (isAtBottom && !isLoadingMore) context.read<HomeBloc>().add(LoadMoreHomeEvent());
+        if (isAtBottom && !isLoadingMore) {
+          context.read<HomeBloc>().add(LoadMoreHomeEvent(searchString: searchController.value));
+        }
 
         return false;
       },
